@@ -77,98 +77,26 @@
 </ul><p>If the View you want to use is not listed above, you can easily add support in your own code by providing a <code>ViewDelegate</code>. See the <code>ViewDelegate</code> section below for more info.</p>
 
 <hr><h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a name="usage-and-integration" class="anchor" href="#usage-and-integration"><span class="octicon octicon-link"></span></a>Usage and Integration</h2>
 
-<p>There are two ways to use this library.</p>
-
-<h3>
-<a name="pulltorefreshattacher-only" class="anchor" href="#pulltorefreshattacher-only"><span class="octicon octicon-link"></span></a>PullToRefreshAttacher only</h3>
-
-<p>This is the simplest method, as it's just two lines of code. You just need to create an instance of <code>PullToRefreshAttacher</code>, giving it the Activity and the View for which will scroll.</p>
-
-<div class="highlight"><pre><span class="kd">private</span> <span class="n">PullToRefreshAttacher</span> <span class="n">mPullToRefreshAttacher</span><span class="o">;</span>
-
-<span class="nd">@Override</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-
-    <span class="c1">// Get View for which the user will scroll…</span>
-    <span class="n">View</span> <span class="n">scrollableView</span> <span class="o">=</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">blah</span><span class="o">);</span> 
-
-    <span class="c1">// Create a PullToRefreshAttacher instance</span>
-    <span class="n">mPullToRefreshAttacher</span> <span class="o">=</span> <span class="n">PullToRefreshAttacher</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-
-    <span class="c1">// Add the Refreshable View and provide the refresh listener</span>
-    <span class="n">mPullToRefreshAttacher</span><span class="o">.</span><span class="na">addRefreshableView</span><span class="o">(</span><span class="n">scrollableView</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
-<span class="o">}</span>
-</pre></div>
-
-<p>See the <a href="samples/stock/src/uk/co/senab/actionbarpulltorefresh/samples/stock/ListViewActivity.java">ListView</a> sample for more info.</p>
-
-<h3>
-<a name="pulltorefreshlayout" class="anchor" href="#pulltorefreshlayout"><span class="octicon octicon-link"></span></a>PullToRefreshLayout</h3>
-
-<p>Using a <code>PullToRefreshLayout</code> gives the library better control over the touch events, and should be used if you find that using the above method is not working correctly.</p>
-
-<p>Examples of when you would use <code>PullToRefreshLayout</code> are:</p>
+<p>See the Quick Start guides for more information on how to achieve a simple integration:</p>
 
 <ul>
-<li>Clickable view with refreshable View</li>
-<li>Not being able to pull from 'empty' space within the refreshable view.</li>
-</ul><p>The first thing you need to do is wrap your refreshable view in a <code>PullToRefreshLayout</code>:</p>
+<li>
+<a href="https://github.com/chrisbanes/ActionBar-PullToRefresh/wiki/QuickStart-Stock">Quick Start</a> for API v14 and above.</li>
+<li>
+<a href="https://github.com/chrisbanes/ActionBar-PullToRefresh/wiki/QuickStart-ABC">Quick Start: ActionBarCompat</a> when using ActionBarCompat (appcompat).</li>
+<li>
+<a href="https://github.com/chrisbanes/ActionBar-PullToRefresh/wiki/QuickStart-ABS">Quick Start: ActionBarSherlock</a> when using ActionBarSherlock.</li>
+</ul><p>Then we are some advanced integration information:</p>
 
-<div class="highlight"><pre><span class="nt">&lt;uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout</span>
-    <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
-    <span class="na">android:id=</span><span class="s">"@+id/ptr_layout"</span>
-    <span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
-    <span class="na">android:layout_height=</span><span class="s">"fill_parent"</span><span class="nt">&gt;</span>
-
-    <span class="c">&lt;!-- Your content, here we're using a ScrollView --&gt;</span>
-
-    <span class="nt">&lt;ScrollView</span>
-        <span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
-        <span class="na">android:layout_height=</span><span class="s">"fill_parent"</span><span class="nt">&gt;</span>
-
-    <span class="nt">&lt;/ScrollView&gt;</span>
-
-<span class="nt">&lt;/uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout&gt;</span>
-</pre></div>
-
-<p>Then in your Activity, get a <code>PullToRefreshAttacher</code> and give it to the <code>PullToRefreshLayout</code>, along with the <code>OnRefreshListener</code>.</p>
-
-<div class="highlight"><pre><span class="kd">private</span> <span class="n">PullToRefreshAttacher</span> <span class="n">mPullToRefreshAttacher</span><span class="o">;</span>
-
-<span class="nd">@Override</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-
-    <span class="c1">// Create a PullToRefreshAttacher instance</span>
-    <span class="n">mPullToRefreshAttacher</span> <span class="o">=</span> <span class="n">PullToRefreshAttacher</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-
-    <span class="c1">// Retrieve the PullToRefreshLayout from the content view</span>
-    <span class="n">PullToRefreshLayout</span> <span class="n">ptrLayout</span> <span class="o">=</span> <span class="o">(</span><span class="n">PullToRefreshLayout</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">ptr_layout</span><span class="o">);</span>
-
-    <span class="c1">// Give the PullToRefreshAttacher to the PullToRefreshLayout, along with a refresh listener.</span>
-    <span class="n">ptrLayout</span><span class="o">.</span><span class="na">setPullToRefreshAttacher</span><span class="o">(</span><span class="n">mPullToRefreshAttacher</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
-
-<span class="o">}</span>
-</pre></div>
-
-<p>See the <a href="samples/stock/src/uk/co/senab/actionbarpulltorefresh/samples/stock/ScrollViewActivity.java">ScrollView</a> sample for more info.</p>
-
-<h2></h2>
-
-<h2>
-<a name="fragments" class="anchor" href="#fragments"><span class="octicon octicon-link"></span></a>Fragments</h2>
-
-<p>One thing to note is that the <code>PullToRefreshAttacher</code> <strong>needs</strong> to be created in the <code>onCreate()</code> phase of the Activity. If you plan on using this library with Fragments then the best practice is for your Activity to create the <code>PullToRefreshAttacher</code>, and then have your fragments retrieve it from the Activity.</p>
-
-<p>An example is provided in the <a href="samples/stock/src/uk/co/senab/actionbarpulltorefresh/samples/stock/FragmentTabsActivity.java">Fragment &amp; Tabs</a> sample.</p>
-
-<h2>
+<ul>
+<li>
+<a href="https://github.com/chrisbanes/ActionBar-PullToRefresh/wiki/ListFragment">ListFragment</a> when integrating the library with a ListFragment.</li>
+</ul><h2>
 <a name="customisation" class="anchor" href="#customisation"><span class="octicon octicon-link"></span></a>Customisation</h2>
 
-<p>See the <a href="Customisation.md">Customisation</a> page for more information.</p>
+<p>See the <a href="https://github.com/chrisbanes/ActionBar-PullToRefresh/wiki/Customisation">Customisation</a> page for more information.</p>
 
 <h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
